@@ -1,0 +1,10 @@
+# XAMPP/PHP specific
+php_errors.log
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDEs and editors
+.vscode/
