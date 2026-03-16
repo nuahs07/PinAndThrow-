@@ -4,8 +4,8 @@ session_start();
 
 
 // ── HARDCODED ADMIN ACCOUNT ──────────────────────────────────
-$hardcoded_email    = "yourname@gmail.com";
-$hardcoded_password = "yourpassword";
+$hardcoded_email    = "admin@pinandthrow.com";
+$hardcoded_password = "admin123";
 
 // If logging in via hardcoded account
 if (isset($_POST['login_email']) && isset($_POST['login_password'])) {
