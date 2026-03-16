@@ -3,11 +3,30 @@
 session_start();
 
 
-if (!isset($_SESSION['user_id']) || !in_array($_SESSION['role'], ['officer', 'admin'])) {
-    header('Location: login.php');
-    exit();
+// ── HARDCODED ADMIN ACCOUNT ──────────────────────────────────
+$hardcoded_email    = "yourname@gmail.com";
+$hardcoded_password = "yourpassword";
+
+// If logging in via hardcoded account
+if (isset($_POST['login_email']) && isset($_POST['login_password'])) {
+    if ($_POST['login_email'] === $hardcoded_email && $_POST['login_password'] === $hardcoded_password) {
+        $_SESSION['user_id']  = 0;
+        $_SESSION['role']     = 'admin';
+        $_SESSION['username'] = 'Admin Officer';
+    }
 }
 
+// Block access if not logged in
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+    echo '
+    <form method="POST" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;gap:12px;font-family:sans-serif;">
+        <h2>Pin & Throw — Admin Login</h2>
+        <input type="email"    name="login_email"    placeholder="Email"    required style="padding:10px;width:280px;border:1px solid #ccc;border-radius:8px;">
+        <input type="password" name="login_password" placeholder="Password" required style="padding:10px;width:280px;border:1px solid #ccc;border-radius:8px;">
+        <button type="submit" style="padding:10px;width:280px;background:#1a7a3e;color:#fff;border:none;border-radius:8px;font-size:15px;cursor:pointer;">Login</button>
+    </form>';
+    exit();
+}
 
 $host   = 'localhost';
 $dbname = 'pinandthrow_db';
@@ -138,7 +157,8 @@ $officer = $pdo->prepare("SELECT firstName, lastName FROM Users WHERE user_ID = 
 $officer->execute([$_SESSION['user_id']]);
 $officer = $officer->fetch(PDO::FETCH_ASSOC);
 $officer_initials = strtoupper(substr($officer['firstName'],0,1) . substr($officer['lastName'],0,1));
-$officer_name = htmlspecialchars($officer['firstName'] . ' ' . $officer['lastName']);
+$officer_initials = 'AO';
+$officer_name     = 'Admin Officer';
 
 
 function statusClass($s) {
