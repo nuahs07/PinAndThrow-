@@ -3,6 +3,7 @@
 session_start();
 
 
+<<<<<<< HEAD
 // ── HARDCODED ADMIN ACCOUNT ──────────────────────────────────
 $hardcoded_email    = "admin@pinandthrow.com";
 $hardcoded_password = "admin123";
@@ -30,6 +31,16 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
 
 $host   = 'localhost';
 $dbname = 'pinandthrow_db';
+=======
+if (!isset($_SESSION['user_id']) || !in_array($_SESSION['role'], ['officer', 'admin'])) {
+    header('Location: login.php');
+    exit();
+}
+
+
+$host   = 'localhost';
+$dbname = 'pin_and_throw';
+>>>>>>> 9628f4d9f05b8e2864d28b7ca13ebd1f33438fb0
 $dbuser = 'root';
 $dbpass = '';
 
@@ -157,8 +168,12 @@ $officer = $pdo->prepare("SELECT firstName, lastName FROM Users WHERE user_ID = 
 $officer->execute([$_SESSION['user_id']]);
 $officer = $officer->fetch(PDO::FETCH_ASSOC);
 $officer_initials = strtoupper(substr($officer['firstName'],0,1) . substr($officer['lastName'],0,1));
+<<<<<<< HEAD
 $officer_initials = 'AO';
 $officer_name     = 'Admin Officer';
+=======
+$officer_name = htmlspecialchars($officer['firstName'] . ' ' . $officer['lastName']);
+>>>>>>> 9628f4d9f05b8e2864d28b7ca13ebd1f33438fb0
 
 
 function statusClass($s) {
